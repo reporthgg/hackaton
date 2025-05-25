@@ -89,6 +89,22 @@ func (h *DroneHandlers) GetActiveDrones(w http.ResponseWriter, r *http.Request) 
 	h.sendResponse(w, true, "Активные дроны получены", drones, http.StatusOK)
 }
 
+func (h *DroneHandlers) GetUserDrones(w http.ResponseWriter, r *http.Request) {
+	var req models.GetUserDronesRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		h.sendResponse(w, false, "Неверный формат JSON", nil, http.StatusBadRequest)
+		return
+	}
+
+	drones, err := h.droneService.GetUserDrones(req)
+	if err != nil {
+		h.sendResponse(w, false, "Ошибка получения дронов пользователя", nil, http.StatusInternalServerError)
+		return
+	}
+
+	h.sendResponse(w, true, "Дроны пользователя получены", drones, http.StatusOK)
+}
+
 func (h *DroneHandlers) GetDroneInfo(w http.ResponseWriter, r *http.Request) {
 	var req models.DroneInfoRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {

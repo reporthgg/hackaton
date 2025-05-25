@@ -59,6 +59,7 @@ func main() {
 		api.POST("/drone/activate", proxyHandler.ProxyToDroneService)
 		api.POST("/drone/move", proxyHandler.ProxyToDroneService)
 		api.GET("/drones", proxyHandler.ProxyToDroneService)
+		api.POST("/drone/getlist", proxyHandler.ProxyToDroneService)
 		api.POST("/drone/info", proxyHandler.ProxyToDroneService)
 		api.POST("/drone/stop", proxyHandler.ProxyToDroneService)
 

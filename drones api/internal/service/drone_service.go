@@ -131,6 +131,32 @@ func (ds *DroneService) GetActiveDrones() ([]models.Drone, error) {
 	return drones, nil
 }
 
+func (ds *DroneService) GetUserDrones(req models.GetUserDronesRequest) ([]models.Drone, error) {
+	query := `SELECT id, name, owner_id, current_lat, current_lng, current_altitude, 
+	          current_status, battery_level, max_speed, created_at, updated_at 
+	          FROM drones WHERE owner_id = $1 ORDER BY id`
+
+	rows, err := ds.db.Query(query, req.UserID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var drones []models.Drone
+	for rows.Next() {
+		var drone models.Drone
+		err := rows.Scan(&drone.ID, &drone.Name, &drone.OwnerID, &drone.CurrentLat,
+			&drone.CurrentLng, &drone.CurrentAltitude, &drone.CurrentStatus,
+			&drone.BatteryLevel, &drone.MaxSpeed, &drone.CreatedAt, &drone.UpdatedAt)
+		if err != nil {
+			continue
+		}
+		drones = append(drones, drone)
+	}
+
+	return drones, nil
+}
+
 func (ds *DroneService) GetDroneInfo(req models.DroneInfoRequest) (*models.Drone, error) {
 	query := `SELECT id, name, owner_id, current_lat, current_lng, current_altitude, 
 	          current_status, battery_level, max_speed, created_at, updated_at 

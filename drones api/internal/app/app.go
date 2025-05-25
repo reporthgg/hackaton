@@ -40,13 +40,13 @@ func NewApp() *App {
 func (a *App) Run() error {
 	r := mux.NewRouter()
 
-	// API маршруты
 	api := r.PathPrefix("/api").Subrouter()
 
 	api.HandleFunc("/drone/create", a.handlers.CreateDrone).Methods("POST")
 	api.HandleFunc("/drone/activate", a.handlers.ActivateDrone).Methods("POST")
 	api.HandleFunc("/drone/move", a.handlers.MoveDrone).Methods("POST")
 	api.HandleFunc("/drones", a.handlers.GetActiveDrones).Methods("GET")
+	api.HandleFunc("/drone/getlist", a.handlers.GetUserDrones).Methods("POST")
 	api.HandleFunc("/drone/info", a.handlers.GetDroneInfo).Methods("POST")
 	api.HandleFunc("/drone/stop", a.handlers.StopDrone).Methods("POST")
 

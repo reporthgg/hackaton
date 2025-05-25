@@ -51,6 +51,10 @@ type StopDroneRequest struct {
 	UserRole int `json:"user_role"`
 }
 
+type GetUserDronesRequest struct {
+	UserID int `json:"user_id"`
+}
+
 type APIResponse struct {
 	Success bool        `json:"success"`
 	Message string      `json:"message"`
